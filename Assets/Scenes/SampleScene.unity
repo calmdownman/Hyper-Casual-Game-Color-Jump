@@ -155,7 +155,7 @@ MonoBehaviour:
   wallPrefabs: {fileID: 2487878595579594508, guid: 2b0c8b843575b1f45aaf914aab894c1b, type: 3}
   leftWalls: {fileID: 1090620863}
   rightWalls: {fileID: 1890481264}
-  currentLevel: 3
+  currentLevel: 4
 --- !u!4 &85946767
 Transform:
   m_ObjectHideFlags: 0

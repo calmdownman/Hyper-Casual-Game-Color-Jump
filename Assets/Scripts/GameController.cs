@@ -49,7 +49,7 @@ public class GameController : MonoBehaviour
             scale.y = wallMaxScaleY / numberOfWalls; //number:1,scale.y:20 , number:2,scale.y:10
             //벽 위치 설정 (y)
             Vector3 position = Vector3.zero;
-            position.y = scale.y * (numberOfWalls / 2-i) - (numberOfWalls % 2 == 0 ? scale.y / 2 : 0);
+            position.y = scale.y * (numberOfWalls / 2 - i) - (numberOfWalls % 2 == 0 ? scale.y / 2 : 0);
             //왼,오른쪽 벽 위치/크기 설정
             SetTransform(leftWalls.GetChild(i), position,scale);
             SetTransform(rightWalls.GetChild(i), position,scale);
