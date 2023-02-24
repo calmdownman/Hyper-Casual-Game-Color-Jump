@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private GameController gameController;
+    [SerializeField]
+    private GameObject playerDieEffect; //플레이어 사망 이펙트
 
     private Rigidbody2D rb2D; //속력 제어를 위한 RB2D
     private CircleCollider2D circleCollider2D;
@@ -21,11 +23,35 @@ public class Player : MonoBehaviour
         rb2D = GetComponent<Rigidbody2D>();
         circleCollider2D = GetComponent<CircleCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        rb2D.velocity = new Vector2(moveSpeed,jumpForce);
-
-        StartCoroutine(nameof(UpdateInput));
+        //rb2D.velocity = new Vector2(moveSpeed,jumpForce);
+        rb2D.isKinematic = true; //물리,중력을 중지한다
+        //StartCoroutine(nameof(UpdateInput));
     }
    
+    private IEnumerator Start() 
+    { 
+        float orginY = transform.position.y;
+        float deltaY = 0.5f;
+        float moveSpeedY = 2;
+
+        while (true)
+        {
+            float y = orginY + deltaY*Mathf.Sin(Time.time*moveSpeedY);
+            transform.position = new Vector2(transform.position.x, y);
+
+            yield return null;
+        }
+    }
+
+    public void GameStart()
+    {
+        rb2D.isKinematic = false;
+        rb2D.velocity = new Vector2(moveSpeed, jumpForce);
+
+        StopCoroutine(nameof(Start));
+        StartCoroutine(nameof(UpdateInput));
+    }
+
     IEnumerator UpdateInput()
     {
         while (true) 
@@ -83,6 +109,8 @@ public class Player : MonoBehaviour
 
     private void PlayerDie()
     {
+        //플에이어 사망 이펙트 생성
+        Instantiate(playerDieEffect, transform.position, Quaternion.identity);
         //게임오버 처리
         gameController.GameOver();
         //플레이어 비활성화

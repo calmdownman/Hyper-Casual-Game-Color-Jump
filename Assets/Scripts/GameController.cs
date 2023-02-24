@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -22,6 +23,8 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     private Player player; //플레이어 컴포넌트 정보
+    [SerializeField]
+    private UIController uiController;
 
     private readonly float wallMaxScaleY = 20; //벽 최대 y 크기
 
@@ -34,6 +37,22 @@ public class GameController : MonoBehaviour
     {
         SpawnWalls();
         SetColors();
+    }
+
+    private IEnumerator Start()
+    {
+        while (true)
+        {
+            if(Input.GetMouseButtonDown(0))
+            {
+                uiController.GameStart();
+                player.GameStart();
+
+                yield break;
+            }
+
+            yield return null;
+        }
     }
 
     void SpawnWalls()
@@ -109,6 +128,7 @@ public class GameController : MonoBehaviour
     {
         //현재 점수 증가
         currentScore++;
+        uiController.UpdateScore(currentScore);
 
         //아직 레벨 업이 가능하고, 현재 점수가 다음 레벨에 필요한 점수보다 높으면
         if (currentLevel < maxLevel && needLevelUpScroe[currentLevel] < currentScore)
