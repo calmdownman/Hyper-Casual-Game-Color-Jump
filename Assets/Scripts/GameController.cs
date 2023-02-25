@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -145,6 +146,27 @@ public class GameController : MonoBehaviour
        
     public void GameOver()
     {
-        Debug.Log("GameOver");
+        //Debug.Log("GameOver");
+        StartCoroutine(nameof(GameOverProcess));
+    }
+
+    IEnumerator GameOverProcess()
+    {
+        if (currentScore > PlayerPrefs.GetInt("HIGHSCORE"))
+        {
+            PlayerPrefs.SetInt("HIGHSCORE", currentScore);
+        }
+
+        uiController.GameOver();
+
+        while (true)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                SceneManager.LoadScene(0);
+            }
+              
+            yield return null;
+        }
     }
 }

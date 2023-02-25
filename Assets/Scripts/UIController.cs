@@ -15,10 +15,22 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI textScore;
 
+    [Header("Game Over")]
+    [SerializeField]
+    private GameObject gameOverPanel;
+    [SerializeField]
+    private TextMeshProUGUI textHighScore;
+
     public void GameStart()
     {
         mainPanel.SetActive(false);
         inGamePanel.SetActive(true);
+    }
+
+    public void GameOver()
+    {
+        gameOverPanel.SetActive(true);
+        textHighScore.text = $"HIGH SCORE : {PlayerPrefs.GetInt("HIGHSCORE")}";
     }
 
     public void UpdateScore(int score)
